@@ -57,9 +57,26 @@
 .bw-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.2em; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin: 0; text-shadow: 0 2px 8px rgba(60, 42, 108, 0.6); line-height: 1; }
 .bw-subtitle { font-family: 'Cinzel', serif; font-size: 0.75em; color: var(--bw-main); text-transform: uppercase; letter-spacing: 5px; margin-top: 5px; font-weight: 700; opacity: 0.9; }
 
-/* IMAGEM */
-.bw-image-frame { width: 100%; margin: 0; height: 300px; position: relative; overflow: hidden; background: transparent; mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%); }
-.bw-image-frame::after { content: ''; position: absolute; inset: 0; box-shadow: inset 5px 0 0 0 var(--bw-border-solid), inset -5px 0 0 0 var(--bw-border-solid), inset 0px 25px 20px -5px var(--bw-bg); z-index: 2; pointer-events: none; }
+/* IMAGEM — corrigido: margem negativa para cobrir a borda interna do container */
+.bw-image-frame {
+  width: calc(100% + 10px); /* compensa os 5px de inset box-shadow em cada lado */
+  margin: 0 -5px;           /* puxa a imagem para fora dos 5px de cada lado */
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+.bw-image-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* removidos os inset laterais (5px) que criavam o espaço visível */
+  box-shadow: inset 0px 25px 20px -5px var(--bw-bg);
+  z-index: 2;
+  pointer-events: none;
+}
 .bw-image-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; position: relative; z-index: 1; transition: 0.4s transform cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .bw-container:hover .bw-image-frame img { transform: scale(1.05); }
 
